@@ -73,7 +73,7 @@ Everything is remappable in Settings (`o`). The full guide is in
 ## Fetch Demo
 
 StaticFX also has an feature which displays your fetch tool info with the current
-active animation/theme displayed behind your fetch info.
+active animation/theme displayed behind your fetch info. ***(Supports Neofetch/Fastfetch)***
 
 ![StaticFX Fetch Demo](https://github.com/ethanlabs101/StaticFX/blob/main/assets/staticfx-fetch-demo.gif)
 
