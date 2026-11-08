@@ -1,0 +1,45 @@
+{
+  "format": "staticfx-effect",
+  "version": 3,
+  "name": "Ion Storm",
+  "description": "Swirling noise with a two-tone glow",
+  "created": "2026-11-07",
+  "recipe": {
+    "layers": [
+      {
+        "kind": "noise",
+        "scale": 5.0,
+        "speed": 1.2,
+        "seed": 77
+      },
+      {
+        "kind": "flow",
+        "scale": 6.0,
+        "speed": 0.8,
+        "blend": "displace"
+      }
+    ],
+    "warps": [
+      {
+        "kind": "swirl",
+        "twist": 3.0
+      }
+    ],
+    "filters": [],
+    "speed": 1.0,
+    "charset": " \u2591\u2592\u2593\u2588",
+    "glyph_rain": false,
+    "dither": false,
+    "palette": {
+      "kind": "duo",
+      "first": "#3a0ca3",
+      "second": "#4cc9f0"
+    },
+    "trail": 0.0,
+    "pulse": 0.0,
+    "scanlines": true,
+    "glitch": false,
+    "sparkle": 0.004,
+    "seed": 0
+  }
+}

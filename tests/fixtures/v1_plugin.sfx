@@ -1,0 +1,17 @@
+{
+  "format": "sfx",
+  "version": 1,
+  "id": "wavy",
+  "name": "Wavy Plugin",
+  "description": "an old plugin",
+  "generator": "waves",
+  "parameters": {
+    "speed": 1.5,
+    "scale": 2.0
+  },
+  "palette": [
+    "#ff0080",
+    "#00e0ff"
+  ],
+  "seed": 7
+}

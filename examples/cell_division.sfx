@@ -1,0 +1,38 @@
+{
+  "format": "staticfx-effect",
+  "version": 3,
+  "name": "Cell Division",
+  "description": "Voronoi cells drifting apart and together",
+  "created": "2026-11-07",
+  "recipe": {
+    "layers": [
+      {
+        "kind": "voronoi",
+        "scale": 9.0,
+        "speed": 0.7,
+        "count": 6,
+        "style": "edges"
+      }
+    ],
+    "warps": [],
+    "filters": [
+      {
+        "kind": "posterize",
+        "levels": 4
+      }
+    ],
+    "speed": 0.8,
+    "charset": " .:#@",
+    "glyph_rain": false,
+    "dither": false,
+    "palette": {
+      "kind": "theme"
+    },
+    "trail": 0.85,
+    "pulse": 0.0,
+    "scanlines": false,
+    "glitch": false,
+    "sparkle": 0.0,
+    "seed": 0
+  }
+}

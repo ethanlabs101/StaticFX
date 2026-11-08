@@ -1,1 +1,130 @@
 # StaticFX
+
+Animated ASCII effects for your terminal. Think `cmatrix`, but with a
+thousand more effects, live theme switching, and a studio for making your own.
+
+![StaticFX demo: Matrix rain, the effect browser, a galaxy, the Studio](https://raw.githubusercontent.com/ethanlabs101/StaticFX/main/assets/demo.gif)
+
+Pure Python, no dependencies, runs in any modern terminal on Linux, macOS
+and WSL.
+
+## Install
+
+You need Python 3.10 or newer.
+
+```bash
+pipx install staticfx
+staticfx
+```
+
+(`pip install staticfx` works too; [pipx](https://pipx.pypa.io) just keeps it in
+its own environment.) To try it without installing anything:
+
+```bash
+git clone https://github.com/ethanlabs101/StaticFX
+cd StaticFX
+python3 -m staticfx
+```
+
+## The 30-second tour
+
+Key | Does
+--- | ---
+`←` `→` | Previous / next effect
+`m` | Browse and search every effect, with live preview
+`t` | Change the colour theme
+`l` | Looks: effect + theme + filters, saved under a name
+`n` | Make your own effect in the Studio
+`f` | Favourite
+`a` | Auto-cycle (screensaver mode)
+`?` | Every key
+`q` | Quit
+
+Everything is remappable in Settings (`o`). The full guide is in
+[docs/USAGE.md](https://github.com/ethanlabs101/StaticFX/blob/main/docs/USAGE.md).
+
+## What's inside
+
+There are 50 hand-written effects in seven groups. Rain: the classic, plus
+binary, hex and glitch versions. Particles: snow, embers, fireworks, orbits.
+Space: a starfield, a galaxy, a black hole, a wormhole. Waves and fields:
+plasma, aurora, a lava lamp, a synthwave grid. Geometry: a tumbling cube, a 4D
+tesseract, spirographs. Simulations: Game of Life, Langton's ant, fire, a maze
+that carves itself. Retro tech: boot screens, decryption, circuits, TV static.
+
+On top of those are 992 generated effects. Each one is a recipe of layered
+patterns (spirals, Julia and Mandelbrot fractals, Voronoi cells, metaballs,
+noise), warps (kaleidoscope, swirl, tile, fold) and filters. They're seeded,
+so `proc_042` is the same effect for everyone, forever. An automated quality
+check weeds out the duds, and 47 hand-picked ones live in the Gallery.
+
+Then there are your own. The Studio remixes any generated effect or starts
+from scratch, with a live preview and undo, and saves small JSON files you
+can share.
+
+You also get:
+
+- **26 colour themes**: originals like Matrix, Inferno and Vaporwave, takes on
+  popular editor schemes (Dracula, Nord, Gruvbox, Catppuccin, Tokyo Night), an
+  animated rainbow, and Strobe if you opt in (it's off by default for
+  photosensitivity reasons)
+- filters that work on anything: CRT scanlines, glitch, rainbow recolour
+- looks, which save an effect with its theme, speed and filters so you can
+  recall it with one key (a dozen come built in)
+
+![The theme menu, with a colour swatch for each theme](https://raw.githubusercontent.com/ethanlabs101/StaticFX/main/assets/themes.png)
+
+![The effect browser](https://raw.githubusercontent.com/ethanlabs101/StaticFX/main/assets/browser.png)
+
+## Make your own
+
+Press `n` for a new effect, or highlight a generated one in the browser and
+press `e` to remix it. Arrow keys change things; `s` saves it to
+**My Effects**.
+
+![The Effect Studio](https://raw.githubusercontent.com/ethanlabs101/StaticFX/main/assets/studio.png)
+
+See [docs/STUDIO.md](https://github.com/ethanlabs101/StaticFX/blob/main/docs/STUDIO.md) for what every control does, and
+[docs/EFFECT_FORMAT.md](https://github.com/ethanlabs101/StaticFX/blob/main/docs/EFFECT_FORMAT.md) for the file format if you'd
+rather write recipes by hand.
+
+## Command line
+
+```bash
+staticfx -e plasma -t ocean           # start on an effect and theme
+staticfx --look "Synthwave"           # start from a look
+staticfx --auto 30 --duration 600     # screensaver: new effect every 30s, quit after 10 min
+staticfx list fire                    # search effects
+staticfx render galaxy --size 80x24   # print one frame (add --ansi for colour)
+staticfx fetch                        # fastfetch/neofetch output over an effect
+staticfx new "Night Drive"            # create a random effect in My Effects
+staticfx export my_night_drive nd.sfx # share it
+staticfx doctor                       # check your setup
+```
+
+`staticfx --help` and `staticfx COMMAND --help` list everything.
+
+## Docs
+
+- [Usage](https://github.com/ethanlabs101/StaticFX/blob/main/docs/USAGE.md): every key, the browser, themes, looks, settings,
+  command line, troubleshooting
+- [The Studio](https://github.com/ethanlabs101/StaticFX/blob/main/docs/STUDIO.md)
+- [Effect file format](https://github.com/ethanlabs101/StaticFX/blob/main/docs/EFFECT_FORMAT.md)
+- [Writing a built-in effect](https://github.com/ethanlabs101/StaticFX/blob/main/docs/WRITING_EFFECTS.md) in Python
+- [Architecture](https://github.com/ethanlabs101/StaticFX/blob/main/docs/ARCHITECTURE.md): how it fits together, and why
+- [Releasing](https://github.com/ethanlabs101/StaticFX/blob/main/docs/RELEASING.md): publishing a new version to PyPI
+
+## Development
+
+```bash
+git clone https://github.com/ethanlabs101/StaticFX && cd StaticFX
+python3 -m pip install -e '.[dev]'
+python3 -m pytest          # ~650 tests, about a minute
+ruff check . && ruff format --check . && mypy
+```
+
+See [CONTRIBUTING.md](https://github.com/ethanlabs101/StaticFX/blob/main/CONTRIBUTING.md) for how changes are made and checked.
+
+## License
+
+[MIT](https://github.com/ethanlabs101/StaticFX/blob/main/LICENSE)

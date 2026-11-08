@@ -1,0 +1,24 @@
+{
+  "crt": true,
+  "effect": "proc_042",
+  "favorites": [
+    "matrix",
+    "gen_007",
+    "plasma"
+  ],
+  "fps": 30.0,
+  "glitch": false,
+  "keybinds": {
+    "y": "crt"
+  },
+  "rainbow": true,
+  "recent": [
+    "plasma",
+    "gen_007",
+    "matrix"
+  ],
+  "theme": "monochrome",
+  "unicode": true,
+  "use_256_color": true,
+  "version": 2
+}

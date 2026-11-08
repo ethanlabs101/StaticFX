@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "looks": [
+    {
+      "name": "My Cyber",
+      "effect": "matrix",
+      "theme": "cyberpunk",
+      "speed": 1.4,
+      "crt": true,
+      "glitch": false,
+      "recolor": true
+    },
+    {
+      "name": "Broken"
+    }
+  ]
+}

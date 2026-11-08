@@ -1,0 +1,9 @@
+# The source distribution carries the tests, docs and examples so it can be
+# checked and repackaged on its own. Screenshots stay on GitHub.
+include CHANGELOG.md CONTRIBUTING.md
+graft docs
+graft examples
+graft tests
+graft tools
+prune assets
+global-exclude __pycache__ *.py[cod]
