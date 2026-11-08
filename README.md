@@ -70,6 +70,15 @@ Key | Does
 Everything is remappable in Settings (`o`). The full guide is in
 [docs/USAGE.md](https://github.com/ethanlabs101/StaticFX/blob/main/docs/USAGE.md).
 
+## Fetch Demo
+
+StaticFX also has an feature which displays your fetch tool info with the current
+active animation/theme displayed behind your fetch info.
+
+![StaticFX Fetch Demo](https://github.com/ethanlabs101/StaticFX/blob/main/assets/staticfx-fetch-demo.gif)
+
+> Demo recorded from my 2011 iMac.
+
 ## What's inside
 
 There are 50 hand-written effects in seven groups. Rain: the classic, plus
