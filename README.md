@@ -15,7 +15,7 @@ WSL, and even Android through Termux.
 
 Enjoying StaticFX? 
 
-Try [TermiCube](https://github.com/ethanlabs101/TermiCube) 
+Try [TermiCube](https://github.com/ethanlabs101/TermiCube) A dependency-free 3D Rubik's Cube animation for the terminal.
 
 ## Install
 
