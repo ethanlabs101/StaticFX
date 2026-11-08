@@ -13,7 +13,7 @@ thousand more effects, live theme switching, and a studio for making your own.
 Pure Python, no dependencies, runs in any modern terminal on Linux, macOS,
 WSL, and even Android through Termux.
 
-Enjoying `StaticFX`? 
+Enjoying StaticFX? 
 
 Try [TermiCube](https://github.com/ethanlabs101/TermiCube) 
 
