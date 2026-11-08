@@ -224,3 +224,12 @@ def test_command_line_overrides_are_not_saved(app: App, tmp_path: Path) -> None:
     app.dirty = True
     app.save_settings()
     assert json.loads((tmp_path / "config.json").read_text())["fps"] == 60
+
+
+def test_system_info_key_is_easy_to_find(make_app: AppFactory) -> None:
+    app = make_app(seen_welcome=False)
+    assert "y        your system info" in screen(app)
+    app = make_app()
+    assert "y sysinfo" in screen(app)
+    top = [keys for kind, keys, _ in help_lines(app)[:16] if kind == "row"]
+    assert "y" in top, "the help screen should show it without scrolling"

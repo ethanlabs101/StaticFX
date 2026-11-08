@@ -182,6 +182,7 @@ class PlayScreen(Screen):
                 f"{self._key('browse')} browse",
                 f"{self._key('themes')} themes",
                 f"{self._key('new_effect')} create",
+                f"{self._key('info')} sysinfo",
                 f"{self._key('help')} help",
                 f"{self._key('quit')} quit",
             ]
@@ -199,9 +200,13 @@ class PlayScreen(Screen):
             (self._key("themes"), "change the colour theme"),
             (self._key("looks"), "ready-made looks"),
             (self._key("new_effect"), "make your own effect in the Studio"),
+            (self._key("info"), "your system info over the effect"),
             (self._key("status"), "show what's playing"),
             (self._key("help"), "every key"),
         ]
+        room = max(1, canvas.height - 6)
+        if len(rows) > room:  # small terminal: drop rows, but always say where every key is
+            rows = rows[: room - 1] + rows[-1:]
         width = min(canvas.width - 4, 52)
         height = len(rows) + 6
         x, y = (canvas.width - width) // 2, max(0, (canvas.height - height) // 2)

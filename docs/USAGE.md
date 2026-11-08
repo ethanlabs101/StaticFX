@@ -30,6 +30,7 @@ Menus | `t` | Choose a theme
 Menus | `l` | Saved looks
 Menus | `o` | Settings and key bindings
 Menus | `?` `h` | All keys
+Menus | `y` | System info (fastfetch or neofetch) over the effect
 Create | `n` | New effect in the Studio
 Create | `e` | Edit this effect in the Studio
 Create | `f` | Add to / remove from favourites
@@ -38,7 +39,6 @@ Look | `c` | Next theme
 Look | `v` | CRT scanlines filter
 Look | `g` | Glitch filter
 Look | `w` | Rainbow recolour filter
-Look | `y` | System info (fastfetch or neofetch) over the effect
 Playback | `p` | Pause
 Playback | `z` | Restart the effect
 Playback | `↑` `+` `=` | Faster
