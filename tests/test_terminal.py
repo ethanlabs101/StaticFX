@@ -8,6 +8,7 @@ can't: terminal modes, signals, resizing, and leaving the terminal usable.
 from __future__ import annotations
 
 import json
+import os
 import signal
 import sys
 from pathlib import Path
@@ -100,6 +101,36 @@ def test_resize_and_too_small(session) -> None:
     assert "Effects" in s.screen.text()
     s.press("escape", "q")
     assert s.wait_exit() == 0
+
+
+@pytest.fixture
+def fake_fastfetch(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    bin_dir = tmp_path / "bin"
+    bin_dir.mkdir()
+    tool = bin_dir / "fastfetch"
+    tool.write_text("#!/bin/sh\nprintf 'OS: Testix\\nShell: fish\\n'\n")
+    tool.chmod(0o755)
+    monkeypatch.setenv("PATH", f"{bin_dir}{os.pathsep}{os.environ['PATH']}")
+
+
+def test_system_info_overlay_in_the_app(session, fake_fastfetch) -> None:
+    s = session()
+    s.press("x", "y", wait=1.0)
+    assert "OS: Testix" in s.screen.text()
+    s.press("y")
+    assert "Testix" not in s.screen.text()
+    s.press("q")
+    assert s.wait_exit() == 0
+
+
+def test_fetch_opens_the_app_with_system_info(session, fake_fastfetch) -> None:
+    s = session("fetch", "-e", "plasma")
+    assert "Shell: fish" in s.screen.text()
+    s.press("right")  # still the live app, not a snapshot
+    assert "Shell: fish" in s.screen.text()
+    s.press("q")
+    assert s.wait_exit() == 0
+    assert_terminal_restored(s)
 
 
 def test_sigterm_restores_the_terminal(session) -> None:

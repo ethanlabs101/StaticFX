@@ -18,11 +18,11 @@ from staticfx.core.renderer import Renderer
 from staticfx.core.terminal import is_interactive, supported, terminal_size
 from staticfx.effects.engine import generate
 from staticfx.effects.spec import BUILTIN, GENERATED, USER
-from staticfx.integrations import overlay, system_info
 from staticfx.library import config
 from staticfx.library.effects import EffectLibrary, UserEffect, export
 from staticfx.library.files import clean_name, default_data_dir, slugify
 from staticfx.library.looks import BUILTIN_LOOKS, find_look
+from staticfx.sysinfo import overlay, system_info
 
 EXIT_OK, EXIT_ERROR, EXIT_USAGE = 0, 1, 2
 
@@ -89,7 +89,7 @@ def apply_look_options(app: App, args: argparse.Namespace) -> str | None:
     return None
 
 
-def play(args: argparse.Namespace) -> int:
+def play(args: argparse.Namespace, info: str | None = None) -> int:
     if not supported():
         return fail("the interactive app needs Linux, macOS or WSL (try `staticfx render`)")
     if not is_interactive():
@@ -109,6 +109,9 @@ def play(args: argparse.Namespace) -> int:
         app.override("auto_seconds", min(high, max(low, args.auto)))
         app.auto = True
         app.auto_timer = app.settings.auto_seconds
+    if info is not None:
+        app.info.tool = args.tool
+        app.info.show(info)
     with contextlib.suppress(KeyboardInterrupt):  # SIGINT from outside; Ctrl-C is a key
         session.run(app, args.duration)
     for note in app.notes:
@@ -141,7 +144,11 @@ def fetch(args: argparse.Namespace) -> int:
         info = system_info(args.tool)
     except RuntimeError as exc:
         return fail(str(exc), EXIT_ERROR)
+    if not args.once and supported() and is_interactive():
+        return play(args, info)
     app = load_app(args)
+    if args.color256:
+        app.override("colour", "256")
     error = apply_look_options(app, args)
     if error:
         return fail(error)

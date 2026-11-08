@@ -22,6 +22,7 @@ from staticfx.library import config
 from staticfx.library.config import Settings
 from staticfx.library.effects import EffectLibrary, UserEffect
 from staticfx.library.looks import Look, LookStore
+from staticfx.sysinfo import SystemInfo, overlay
 from staticfx.ui.play import PlayScreen
 from staticfx.ui.screen import Screen
 from staticfx.ui.widgets import ASCII, UNICODE, Canvas, Style, fit
@@ -73,6 +74,7 @@ class App:
         self.auto = False
         self.auto_timer = 0.0
         self.show_status = False
+        self.info = SystemInfo()
         self.width, self.height = 80, 24
 
     def start(self) -> None:
@@ -209,6 +211,11 @@ class App:
         state = f"every {self.settings.auto_seconds:g}s from {source}" if self.auto else "off"
         self.toast(f"Auto-cycle {state}")
 
+    def toggle_info(self) -> None:
+        self.info.toggle()
+        if self.info.visible and self.info.loading:
+            self.toast("Loading system info...")
+
     def is_favorite(self, key: str) -> bool:
         return key in self.settings.favorites
 
@@ -293,6 +300,9 @@ class App:
         for screen in self.screens:
             screen.update(dt)
         self.toast_time = max(0.0, self.toast_time - dt)
+        if self.info.visible and self.info.error:
+            self.info.visible = False
+            self.toast(f"No system info: {self.info.error}", 5.0)
         if self.auto and len(self.screens) == 1:
             self.auto_timer -= dt
             if self.auto_timer <= 0:
@@ -304,6 +314,8 @@ class App:
         if self.too_small:
             self._draw_too_small(canvas)
             return
+        if self.info.visible and self.info.text:
+            overlay(frame, theme, self.info.text)
         for screen in self.screens:
             screen.draw(canvas)
         if self.toast_time > 0 and self.toast_text:

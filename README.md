@@ -58,6 +58,7 @@ Key | Does
 `n` | Make your own effect in the Studio
 `f` | Favourite
 `a` | Auto-cycle (screensaver mode)
+`y` | Your system info (fastfetch/neofetch) over the live effect
 `?` | Every key
 `q` | Quit
 
@@ -117,11 +118,14 @@ staticfx --look "Synthwave"           # start from a look
 staticfx --auto 30 --duration 600     # screensaver: new effect every 30s, quit after 10 min
 staticfx list fire                    # search effects
 staticfx render galaxy --size 80x24   # print one frame (add --ansi for colour)
-staticfx fetch                        # fastfetch/neofetch output over an effect
+staticfx fetch                        # your fastfetch/neofetch info over a live effect
+staticfx fetch --once                 # one still frame, for your .bashrc
 staticfx new "Night Drive"            # create a random effect in My Effects
 staticfx export my_night_drive nd.sfx # share it
 staticfx doctor                       # check your setup
 ```
+
+![staticfx fetch: system info over Matrix rain](https://raw.githubusercontent.com/ethanlabs101/StaticFX/main/assets/fetch.png)
 
 `staticfx --help` and `staticfx COMMAND --help` list everything.
 

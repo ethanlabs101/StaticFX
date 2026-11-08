@@ -9,7 +9,7 @@ from pathlib import Path
 import pytest
 from conftest import press, screen, type_text
 
-from staticfx import integrations
+from staticfx import sysinfo
 from staticfx.app.app import App
 from staticfx.cli import main
 from staticfx.core.color import RGB
@@ -63,26 +63,26 @@ def test_postfx_lists_what_is_on() -> None:
 def test_overlay_colours_labels() -> None:
     frame = filled(40, 8)
     theme = STATIC_THEMES["ocean"]
-    integrations.overlay(frame, theme, "user@box\nOS: Linux\nlong line without a label")
+    sysinfo.overlay(frame, theme, "user@box\nOS: Linux\nlong line without a label")
     row = frame.lines()[3]
     assert "OS: Linux" in row
     assert frame.cells[3][3].color == theme.accent
 
 
 def test_system_info_reports_missing_tools(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setattr(integrations.shutil, "which", lambda name: None)
+    monkeypatch.setattr(sysinfo.shutil, "which", lambda name: None)
     with pytest.raises(RuntimeError, match="not installed"):
-        integrations.system_info()
+        sysinfo.system_info()
 
 
 def test_system_info_strips_colours(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setattr(integrations.shutil, "which", lambda name: "/bin/" + name)
+    monkeypatch.setattr(sysinfo.shutil, "which", lambda name: "/bin/" + name)
 
     def fake_run(command, **kwargs):
         return subprocess.CompletedProcess(command, 0, stdout="\x1b[31mOS\x1b[0m: Linux\t!")
 
-    monkeypatch.setattr(integrations.subprocess, "run", fake_run)
-    assert integrations.system_info("neofetch") == "OS: Linux       !"
+    monkeypatch.setattr(sysinfo.subprocess, "run", fake_run)
+    assert sysinfo.system_info("neofetch") == "OS: Linux       !"
 
 
 def test_fetch_command(monkeypatch: pytest.MonkeyPatch, capsys, tmp_path: Path) -> None:
@@ -94,6 +94,53 @@ def test_fetch_command(monkeypatch: pytest.MonkeyPatch, capsys, tmp_path: Path) 
         lambda tool: (_ for _ in ()).throw(RuntimeError("fastfetch is not installed")),
     )
     assert main(["fetch", "--data-dir", str(tmp_path)]) == 1
+
+
+def test_fetch_once_prints_a_snapshot_even_in_a_terminal(
+    monkeypatch: pytest.MonkeyPatch, capsys, tmp_path: Path
+) -> None:
+    monkeypatch.setattr("staticfx.cli.commands.system_info", lambda tool: "OS: Testix")
+    monkeypatch.setattr("staticfx.cli.commands.is_interactive", lambda: True)
+    monkeypatch.setattr("staticfx.cli.commands.terminal_size", lambda: (80, 24))
+    monkeypatch.setattr(
+        "staticfx.cli.commands.play", lambda *a: pytest.fail("--once must not start the app")
+    )
+    assert main(["fetch", "--once", "--data-dir", str(tmp_path)]) == 0
+    assert "Testix" in capsys.readouterr().out
+
+
+def test_info_key_shows_system_info_over_the_effect(app: App) -> None:
+    app.info = sysinfo.SystemInfo(fetch=lambda tool: "OS: Testix\nShell: fish")
+    press(app, "y")
+    app.info.wait(5)
+    press(app, "x")  # the effect keeps changing underneath
+    shown = screen(app)
+    assert "OS: Testix" in shown and "Shell: fish" in shown
+    press(app, "y")
+    assert "Testix" not in screen(app)
+
+
+def test_info_is_fetched_once_and_failures_are_reported(app: App) -> None:
+    calls: list[str | None] = []
+
+    def failing(tool: str | None) -> str:
+        calls.append(tool)
+        raise RuntimeError("fastfetch or neofetch is not installed")
+
+    app.info = sysinfo.SystemInfo(fetch=failing)
+    press(app, "y")
+    app.info.wait(5)
+    app.update(1 / 30)
+    assert not app.info.visible
+    assert "not installed" in app.toast_text
+
+    app.info.fetch = lambda tool: "OS: Testix"
+    press(app, "y")  # tries again
+    app.info.wait(5)
+    press(app, "y", "y")  # hide, show: no second fetch
+    app.info.fetch = failing
+    app.info.wait(5)
+    assert app.info.visible and app.info.text == "OS: Testix" and len(calls) == 1
 
 
 def test_adaptive_mode_trades_detail_for_speed() -> None:

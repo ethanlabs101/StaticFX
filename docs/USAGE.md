@@ -38,6 +38,7 @@ Look | `c` | Next theme
 Look | `v` | CRT scanlines filter
 Look | `g` | Glitch filter
 Look | `w` | Rainbow recolour filter
+Look | `y` | System info (fastfetch or neofetch) over the effect
 Playback | `p` | Pause
 Playback | `z` | Restart the effect
 Playback | `↑` `+` `=` | Faster
@@ -55,6 +56,13 @@ Key | Action
 
 The status bar (`i`) shows the effect, its group, the theme, the speed and
 which filters are on.
+
+`y` lays your system info over the effect, which keeps running underneath,
+so you can flip through effects and themes to find the one that frames it
+best. It uses [fastfetch](https://github.com/fastfetch-cli/fastfetch) or
+neofetch, whichever is installed (`sudo pacman -S fastfetch`,
+`sudo apt install fastfetch`, `pkg install fastfetch` on Termux), and runs it
+once per session.
 
 ## Finding effects
 
@@ -152,7 +160,7 @@ Command | What it does
 `staticfx import FILE` | Add a `.sfx` file to My Effects.
 `staticfx export EFFECT FILE` | Save one of your effects, or a generated one, as a `.sfx` file.
 `staticfx render [EFFECT] [--size WxH] [--frames N] [--ansi] [--256] [--out FILE]` | Print one frame and exit. Handy for screenshots, CI, or your shell prompt.
-`staticfx fetch [--tool fastfetch\|neofetch]` | Your system info over an effect.
+`staticfx fetch [--tool fastfetch\|neofetch] [--once]` | Open the app with your system info showing (`y` hides it). `--once` prints a single still frame instead, for your shell's startup file.
 `staticfx doctor` | Check your terminal and saved files, and render every effect once.
 
 `play`, `render` and `fetch` share these options:
@@ -168,8 +176,8 @@ Option | Meaning
 `--seed N` | Make random choices reproducible.
 `--data-dir DIR` | Use another folder for settings and effects.
 
-`play` also takes `--auto [SECS]`, `--duration SECS`, `--fps N`, `--256` and
-`--no-save` (don't save settings on exit).
+`play` and `fetch` also take `--auto [SECS]`, `--duration SECS`, `--fps N`,
+`--256` and `--no-save` (don't save settings on exit).
 
 Run `staticfx COMMAND --help` for the details of any command. Flags from
 StaticFX 1.x (`--list`, `--frames`, `--new-effect`, ...) still work.

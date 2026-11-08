@@ -110,7 +110,7 @@ class Session:
         env.pop("COLUMNS", None)
         env.pop("LINES", None)
         self.process = subprocess.Popen(
-            [sys.executable, "-m", "staticfx", "--data-dir", str(data_dir), *args],
+            [sys.executable, "-m", "staticfx", *args, "--data-dir", str(data_dir)],
             stdin=slave,
             stdout=slave,
             stderr=subprocess.PIPE,

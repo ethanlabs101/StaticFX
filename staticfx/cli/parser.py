@@ -76,6 +76,26 @@ def build() -> argparse.ArgumentParser:
     group.add_argument("--ascii", action="store_true", help="plain ASCII only")
     group.add_argument("--katakana", action="store_true", help="katakana in the rain effects")
 
+    interactive = argparse.ArgumentParser(add_help=False)
+    interactive.add_argument(
+        "--auto",
+        type=positive,
+        nargs="?",
+        const=12.0,
+        metavar="SECS",
+        help="change effect every SECS seconds (default 12)",
+    )
+    interactive.add_argument(
+        "--duration", type=positive, metavar="SECS", help="quit after SECS seconds"
+    )
+    interactive.add_argument(
+        "--fps", type=int, choices=range(5, 61), metavar="5-60", help="frame rate"
+    )
+    interactive.add_argument(
+        "--256", dest="color256", action="store_true", help="force 256 colours"
+    )
+    interactive.add_argument("--no-save", action="store_true", help="don't save settings on exit")
+
     parser = argparse.ArgumentParser(
         prog="staticfx",
         description="Animated ASCII effects for your terminal.",
@@ -85,19 +105,7 @@ def build() -> argparse.ArgumentParser:
     parser.add_argument("--version", action="version", version=f"StaticFX {__version__}")
     sub = parser.add_subparsers(dest="command", metavar="COMMAND")
 
-    play = sub.add_parser("play", parents=[common, look], help="run the app (the default)")
-    play.add_argument(
-        "--auto",
-        type=positive,
-        nargs="?",
-        const=12.0,
-        metavar="SECS",
-        help="change effect every SECS seconds (default 12)",
-    )
-    play.add_argument("--duration", type=positive, metavar="SECS", help="quit after SECS seconds")
-    play.add_argument("--fps", type=int, choices=range(5, 61), metavar="5-60", help="frame rate")
-    play.add_argument("--256", dest="color256", action="store_true", help="force 256 colours")
-    play.add_argument("--no-save", action="store_true", help="don't save settings on exit")
+    sub.add_parser("play", parents=[common, look, interactive], help="run the app (the default)")
 
     lister = sub.add_parser("list", parents=[common], help="list or search effects")
     lister.add_argument("query", nargs="*", help="words to search for")
@@ -128,9 +136,14 @@ def build() -> argparse.ArgumentParser:
     render.add_argument("--256", dest="color256", action="store_true", help="256-colour codes")
     render.add_argument("--out", metavar="FILE", help="write to FILE instead of the screen")
 
-    fetch = sub.add_parser("fetch", parents=[common, look], help="system info over an effect")
+    fetch = sub.add_parser(
+        "fetch", parents=[common, look, interactive], help="system info over an effect"
+    )
     fetch.add_argument(
         "--tool", choices=("fastfetch", "neofetch"), help="default: whichever is installed"
+    )
+    fetch.add_argument(
+        "--once", action="store_true", help="print one still frame and exit (for shell startup)"
     )
 
     sub.add_parser("doctor", parents=[common], help="check your setup and run a self-test")

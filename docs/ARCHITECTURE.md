@@ -36,6 +36,7 @@ Path | What it does
 `core/clock.py` | Frame pacing.
 `themes.py` | Colour themes as 256-entry ramps, plus the animated Rainbow and Strobe.
 `postfx.py` | The CRT, glitch and recolour filters applied to finished frames.
+`sysinfo.py` | Runs fastfetch or neofetch and draws its output over a frame, for `staticfx fetch`.
 `effects/base.py` | The `Effect` base class and its contract.
 `effects/builtin/` | The 50 hand-written effects, and `CATALOGUE`, which names and groups them.
 `effects/engine/` | The procedural engine: `schema.py` (parameter descriptions), `layers.py`, `warps.py`, `filters.py`, `recipe.py` (the data model and its JSON form), `generate.py` (seed → recipe), `effect.py` (drawing a recipe).

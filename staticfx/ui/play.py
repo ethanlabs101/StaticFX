@@ -46,6 +46,7 @@ class PlayScreen(Screen):
             "crt": lambda: self.toggle_filter("crt", "CRT scanlines"),
             "glitch": lambda: self.toggle_filter("glitch", "Glitch"),
             "recolour": lambda: self.toggle_filter("recolour", "Rainbow recolour"),
+            "info": app.toggle_info,
             "pause": self.pause,
             "restart": self.restart,
             "faster": lambda: self.change_speed(app.player.faster),

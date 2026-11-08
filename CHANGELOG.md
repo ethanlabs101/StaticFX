@@ -23,6 +23,9 @@ automatically.
   every effect once.
 - 26 themes, up from 13, including takes on Dracula, Nord, Gruvbox,
   Solarized, Catppuccin and Tokyo Night. The theme menu shows each palette.
+- System info in the app: `y` lays your fastfetch or neofetch output over
+  the running effect. `staticfx fetch` opens the app that way; `--once`
+  prints the old still frame.
 - Plain keys everywhere: menus no longer need Ctrl combinations: in the
   browser `/` searches and `f`, `e`, `n`, `d` act on the highlighted effect.
   Letters work with or without Shift, and every menu closes with `q`.
