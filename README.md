@@ -13,6 +13,8 @@ thousand more effects, live theme switching, and a studio for making your own.
 Pure Python, no dependencies, runs in any modern terminal on Linux, macOS,
 WSL, and even Android through Termux.
 
+Enjoy `StaticFX`? Try [TermiCube]()
+
 ## Install
 
 You need Python 3.10 or newer (`python3 --version` tells you).
