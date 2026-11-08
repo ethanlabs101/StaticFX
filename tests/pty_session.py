@@ -44,6 +44,16 @@ class Screen:
         self.alternate = False
         self.cursor_visible = True
         self._partial = ""  # an escape sequence split across two reads
+        self.new_size: tuple[int, int] | None = None
+        self.clears = 0
+
+    def resize(self, width: int, height: int) -> None:
+        """Take the new size at the app's next clear.
+
+        Output already on its way was laid out for the old size; applying it
+        to the new grid scrambles the screen, which macOS pipes made obvious.
+        """
+        self.new_size = (width, height)
 
     def feed(self, data: str) -> None:
         data, self._partial = self._partial + data, ""
@@ -74,7 +84,10 @@ class Screen:
         elif final == "K" and 0 <= self.y < self.height:
             self.rows[self.y][self.x :] = [" "] * (self.width - self.x)
         elif final == "J":
+            if self.new_size:
+                (self.width, self.height), self.new_size = self.new_size, None
             self.rows = [[" "] * self.width for _ in range(self.height)]
+            self.clears += 1
         elif final in "hl" and params == "?1049":
             self.alternate = final == "h"
         elif final in "hl" and params == "?25":
@@ -132,9 +145,13 @@ class Session:
         return self.pump(wait)
 
     def resize(self, width: int, height: int) -> str:
+        clears = self.screen.clears
+        self.screen.resize(width, height)
         fcntl.ioctl(self.master, termios.TIOCSWINSZ, struct.pack("HHHH", height, width, 0, 0))
-        self.screen = Screen(width, height)
-        return self.pump(0.5)
+        end = time.monotonic() + 3.0
+        while self.screen.clears == clears and time.monotonic() < end:
+            self.pump(0.05)
+        return self.pump(0.3)
 
     def wait_exit(self, timeout: float = 5.0) -> int:
         end = time.monotonic() + timeout
