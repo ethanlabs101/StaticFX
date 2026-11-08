@@ -5,8 +5,8 @@ thousand more effects, live theme switching, and a studio for making your own.
 
 ![StaticFX demo: Matrix rain, the effect browser, a galaxy, the Studio](https://raw.githubusercontent.com/ethanlabs101/StaticFX/main/assets/demo.gif)
 
-Pure Python, no dependencies, runs in any modern terminal on Linux, macOS
-and WSL.
+Pure Python, no dependencies, runs in any modern terminal on Linux, macOS,
+WSL, and even Android through Termux.
 
 ## Install
 
@@ -28,12 +28,16 @@ Ubuntu, Debian | `sudo apt install pipx`
 Fedora | `sudo dnf install pipx`
 Arch | `sudo pacman -S python-pipx`
 Windows (WSL) | same as your Linux distro
+Android (Termux) | not needed: `pkg install python`, then `pip install staticfx`
 
 Then run `pipx ensurepath` once (or `python3 -m pipx ensurepath` if the
 `pipx` command isn't found yet) and open a new terminal so the `staticfx`
 command is on your PATH.
 
-Plain `pip install staticfx` works too, inside a virtual environment. Newer
+Plain `pip install staticfx` works too, inside a virtual environment.
+On Termux, if the katakana in Matrix rain show up as boxes, run
+`staticfx --ascii`, and turn the phone sideways if it says the terminal is
+too small. Newer
 Ubuntu and Debian refuse to pip-install outside one, which is another reason
 to use pipx. To try it without installing anything:
 

@@ -206,3 +206,8 @@ that couldn't be read and why.
 
 **Windows.** The interactive app needs a POSIX terminal: use WSL. `render`,
 `list` and the other one-off commands work anywhere.
+
+**Android.** Works in Termux (`pkg install python`, then `pip install
+staticfx`). Use the extra-keys row for `Esc` and the arrows, turn the phone
+sideways if the screen is under 40x12, and set Characters to `ascii` in
+Settings if the font draws katakana as boxes.
