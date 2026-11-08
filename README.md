@@ -10,15 +10,32 @@ and WSL.
 
 ## Install
 
-You need Python 3.10 or newer.
+You need Python 3.10 or newer (`python3 --version` tells you).
 
 ```bash
 pipx install staticfx
 staticfx
 ```
 
-(`pip install staticfx` works too; [pipx](https://pipx.pypa.io) just keeps it in
-its own environment.) To try it without installing anything:
+[pipx](https://pipx.pypa.io) installs command-line tools in their own
+environment so they can't clash with anything else. If you don't have it:
+
+Your system | Get pipx with
+--- | ---
+macOS with Homebrew | `brew install pipx`
+macOS without Homebrew | `python3 -m pip install --user pipx`
+Ubuntu, Debian | `sudo apt install pipx`
+Fedora | `sudo dnf install pipx`
+Arch | `sudo pacman -S python-pipx`
+Windows (WSL) | same as your Linux distro
+
+Then run `pipx ensurepath` once (or `python3 -m pipx ensurepath` if the
+`pipx` command isn't found yet) and open a new terminal so the `staticfx`
+command is on your PATH.
+
+Plain `pip install staticfx` works too, inside a virtual environment. Newer
+Ubuntu and Debian refuse to pip-install outside one, which is another reason
+to use pipx. To try it without installing anything:
 
 ```bash
 git clone https://github.com/ethanlabs101/StaticFX
