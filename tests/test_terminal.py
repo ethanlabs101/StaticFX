@@ -13,11 +13,30 @@ import sys
 from pathlib import Path
 
 import pytest
-from pty_session import Session
+from pty_session import Screen, Session
 
 pytestmark = pytest.mark.skipif(sys.platform == "win32", reason="needs a POSIX pty")
 
 ALT_ON, ALT_OFF = "\x1b[?1049h", "\x1b[?1049l"
+
+
+def test_emulator_copes_with_output_split_anywhere() -> None:
+    # macOS hands a pty's output over in small pieces, which can end in the
+    # middle of a colour code. The emulator must give the same screen anyway.
+    from staticfx.core.color import RGB
+    from staticfx.core.frame import Frame
+    from staticfx.core.renderer import Renderer
+
+    frame = Frame(30, 4)
+    for x in range(30):
+        frame.put(x, 1, "ア" if x % 3 else "#", RGB(255 - x, 200 + x, x * 8))
+    whole = Screen(30, 4)
+    output = Renderer().diff(frame)
+    whole.feed(output)
+    bytewise = Screen(30, 4)
+    for char in output:
+        bytewise.feed(char)
+    assert bytewise.text() == whole.text()
 
 
 @pytest.fixture

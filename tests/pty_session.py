@@ -6,6 +6,7 @@ clears, colours, mode switches), which is enough to assert on screen text.
 
 from __future__ import annotations
 
+import codecs
 import fcntl
 import os
 import pty
@@ -20,6 +21,7 @@ import time
 from pathlib import Path
 
 SEQUENCE = re.compile(r"\x1b\[([?0-9;]*)([A-Za-z])")
+UNFINISHED = re.compile(r"\x1b(\[[?0-9;]*)?$")
 KEYS = {
     "up": "\x1b[A",
     "down": "\x1b[B",
@@ -57,9 +59,9 @@ class Screen:
 
     def feed(self, data: str) -> None:
         data, self._partial = self._partial + data, ""
-        cut = data.rfind("\x1b")
-        if cut != -1 and not SEQUENCE.match(data, cut) and len(data) - cut < 16:
-            data, self._partial = data[:cut], data[cut:]
+        unfinished = UNFINISHED.search(data)
+        if unfinished:
+            data, self._partial = data[: unfinished.start()], unfinished.group()
         pos = 0
         while pos < len(data):
             match = SEQUENCE.match(data, pos) if data[pos] == "\x1b" else None
@@ -119,6 +121,7 @@ class Session:
         os.close(slave)
         self.master = master
         self.raw = ""
+        self._decoder = codecs.getincrementaldecoder("utf-8")(errors="replace")
 
     def pump(self, seconds: float = 0.4) -> str:
         """Read output for ``seconds``; returns the screen text afterwards."""
@@ -127,7 +130,7 @@ class Session:
             ready, _, _ = select.select([self.master], [], [], 0.05)
             if ready:
                 try:
-                    chunk = os.read(self.master, 65536).decode("utf-8", errors="replace")
+                    chunk = self._decoder.decode(os.read(self.master, 65536))
                 except OSError:
                     break
                 self.raw += chunk
