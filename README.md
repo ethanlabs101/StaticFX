@@ -13,10 +13,6 @@ thousand more effects, live theme switching, and a studio for making your own.
 Pure Python, no dependencies, runs in any modern terminal on Linux, macOS,
 WSL, and even Android through Termux.
 
-Enjoying StaticFX? 
-
-Try [TermiCube](https://github.com/ethanlabs101/TermiCube) A dependency-free 3D Rubik's Cube animation for the terminal.
-
 ## Install
 
 You need Python 3.10 or newer (`python3 --version` tells you).
@@ -162,3 +158,8 @@ See [CONTRIBUTING.md](https://github.com/ethanlabs101/StaticFX/blob/main/CONTRIB
 ## License
 
 [MIT](https://github.com/ethanlabs101/StaticFX/blob/main/LICENSE)
+
+***Enjoying StaticFX?***
+
+Try [TermiCube](https://github.com/ethanlabs101/TermiCube) 
+> A dependency-free 3D Rubik's Cube animation for the terminal.
