@@ -159,7 +159,9 @@ See [CONTRIBUTING.md](https://github.com/ethanlabs101/StaticFX/blob/main/CONTRIB
 
 [MIT](https://github.com/ethanlabs101/StaticFX/blob/main/LICENSE)
 
-***Enjoying StaticFX?***
+---
+
+## ***Enjoying StaticFX?***
 
 Try [TermiCube](https://github.com/ethanlabs101/TermiCube) 
 > A dependency-free 3D Rubik's Cube animation for the terminal.
