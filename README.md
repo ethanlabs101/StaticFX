@@ -1,6 +1,6 @@
 # StaticFX
 
-[![PyPI Downloads](https://static.pepy.tech/personalized-badge/staticfx?period=total&units=INTERNATIONAL_SYSTEM&left_color=GREY&right_color=BLUE&left_text=downloads)](https://pepy.tech/projects/staticfx)
+[![PyPI Downloads](https://static.pepy.tech/personalized-badge/staticfx?period=total&units=INTERNATIONAL_SYSTEM&left_color=GREY&right_color=RED&left_text=downloads)](https://pepy.tech/projects/staticfx)
 [![PyPI](https://img.shields.io/pypi/v/staticfx)](https://pypi.org/project/staticfx/)
 [![Python](https://img.shields.io/pypi/pyversions/staticfx)](https://pypi.org/project/staticfx/)
 [![CI](https://github.com/ethanlabs101/StaticFX/actions/workflows/ci.yml/badge.svg)](https://github.com/ethanlabs101/StaticFX/actions/workflows/ci.yml)
