@@ -151,7 +151,9 @@ it. Its first user is [NeoWave](https://github.com/ethanlabs101/neowave-lua),
 my fastfetch/neofetch editor, which runs any StaticFX effect, theme or look as
 a live background and can export your fetch as a GIF over an effect.
 
-![NeoWave running a StaticFX matrix background](assets/neowave.png)
+![StaticFX-neowavelua-integration](https://github.com/user-attachments/assets/ceededa4-b183-4d66-936b-2561a3c516e3)
+
+> StaticFX/NeoWave Lua Integration Demo
 
 Install StaticFX 2.1.0 or newer and turn it on in NeoWave under
 **Settings → Animated background**. If you want to support it in your own
