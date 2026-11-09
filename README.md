@@ -155,6 +155,15 @@ https://github.com/user-attachments/assets/7869f462-5cf7-48dd-83de-5dee0ff40fd7
 
 > StaticFX/NeoWave Lua Integration Demo
 
+<details>
+<summary>View NeoWave Lua Sneek Peak</summary>
+
+![NeoWave Lua Preview Image]()
+
+> NeoWave Lua can create beautiful unique custom fetch configs.
+
+</details>
+
 Install StaticFX 2.1.0 or newer and turn it on in NeoWave under
 **Settings → Animated background**. If you want to support it in your own
 program, the format is in [docs/STREAM.md](docs/STREAM.md).
