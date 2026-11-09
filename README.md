@@ -158,7 +158,7 @@ https://github.com/user-attachments/assets/7869f462-5cf7-48dd-83de-5dee0ff40fd7
 <details>
 <summary>View NeoWave Lua Sneek Peak</summary>
 
-![NeoWave Lua Preview Image]()
+![NeoWave Lua Preview Image](https://github.com/ethanlabs101/StaticFX/blob/main/assets/neowave-lua-flex.png)
 
 > NeoWave Lua can create beautiful unique custom fetch configs.
 
