@@ -144,6 +144,24 @@ staticfx doctor                       # check your setup
 
 `staticfx --help` and `staticfx COMMAND --help` list everything.
 
+## Streaming (new in 2.1.0)
+
+`staticfx stream` writes frames to stdout in a small text format, so other
+programs can draw StaticFX effects themselves:
+
+```sh
+staticfx stream plasma --size 120x40 --fps 20 | your-program
+```
+
+The format is documented in [docs/STREAM.md](docs/STREAM.md). `list`, `themes`
+and `looks` also take `--tsv` now, for scripts that want the catalog.
+
+I built it for [NeoWave](https://github.com/ethanlabs101/neowave-lua), my
+fastfetch/neofetch editor. It runs any StaticFX effect behind the editor, and
+can export your fetch as a GIF over an effect:
+
+![NeoWave running a StaticFX matrix background](assets/neowave.png)
+
 ## Docs
 
 - [Usage](https://github.com/ethanlabs101/StaticFX/blob/main/docs/USAGE.md): every key, the browser, themes, looks, settings,
