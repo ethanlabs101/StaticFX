@@ -1,10 +1,10 @@
 # StaticFX
 
-[![PyPI Downloads](https://static.pepy.tech/personalized-badge/staticfx?period=total&units=INTERNATIONAL_SYSTEM&left_color=GREY&right_color=RED&left_text=downloads)](https://pepy.tech/projects/staticfx)
 [![PyPI](https://img.shields.io/pypi/v/staticfx)](https://pypi.org/project/staticfx/)
 [![Python](https://img.shields.io/pypi/pyversions/staticfx)](https://pypi.org/project/staticfx/)
 [![CI](https://github.com/ethanlabs101/StaticFX/actions/workflows/ci.yml/badge.svg)](https://github.com/ethanlabs101/StaticFX/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](https://github.com/ethanlabs101/StaticFX/blob/main/LICENSE)
+[![PyPI Downloads](https://static.pepy.tech/personalized-badge/staticfx?period=total&units=INTERNATIONAL_SYSTEM&left_color=GREY&right_color=RED&left_text=downloads)](https://pepy.tech/projects/staticfx)
 
 Animated ASCII effects for your terminal. Think `cmatrix`, but with a
 thousand more effects, live theme switching, and a studio for making your own.
