@@ -151,7 +151,7 @@ it. Its first user is [NeoWave](https://github.com/ethanlabs101/neowave-lua),
 my fastfetch/neofetch editor, which runs any StaticFX effect, theme or look as
 a live background and can export your fetch as a GIF over an effect.
 
-![](https://github.com/ethanlabs101/StaticFX/blob/main/assets/neowave-staticfx-demo.mp4)
+https://github.com/user-attachments/assets/7869f462-5cf7-48dd-83de-5dee0ff40fd7
 
 > StaticFX/NeoWave Lua Integration Demo
 
