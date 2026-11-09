@@ -129,3 +129,73 @@ def test_1x_flags_still_work(old: list[str], new: list[str]) -> None:
 def test_1x_frames_command_end_to_end(capsys, tmp_path: Path) -> None:
     code, out, _ = run(capsys, tmp_path, "--frames", "10", "-e", "galaxy", "--size", "30x6")
     assert code == 0 and len(out.splitlines()) == 6
+
+
+def _stream_frames(raw: bytes) -> tuple[str, list[list[str]]]:
+    lines = raw.decode("utf-8").split("\n")
+    header = lines[0]
+    height = int(header.split()[3])
+    frames, i = [], 1
+    while i < len(lines) and lines[i] == "F":
+        frames.append(lines[i + 1 : i + 1 + height])
+        i += 1 + height
+    return header, frames
+
+
+def test_stream_writes_frames(tmp_path: Path) -> None:
+    import io
+
+    from staticfx.app import session
+    from staticfx.cli.commands import load_app
+    from staticfx.cli.parser import build
+
+    args = build().parse_args(
+        ["stream", "plasma", "--size", "20x6", "--seed", "3", "--data-dir", str(tmp_path)]
+    )
+    app = load_app(args)
+    app.play(app.registry.resolve("plasma"), announce=False)
+    app.resize(20, 6)
+    out = io.BytesIO()
+    session.stream(app, out, 20, count=3)
+    header, frames = _stream_frames(out.getvalue())
+    assert header == "STATICFX-STREAM 1 20 6"
+    assert len(frames) == 3
+    for row in frames[0]:
+        width = 0
+        for run in row.split("\x1f"):
+            if not run:
+                continue
+            if run.startswith("_"):
+                width += int(run[1:])
+            else:
+                int(run[:6], 16)
+                width += len(run) - 6
+        assert width <= 20
+
+
+def test_stream_row_encoding() -> None:
+    from staticfx.app.session import encode_stream_row
+    from staticfx.core.color import RGB
+    from staticfx.core.frame import Cell
+
+    row = [
+        Cell(" "),
+        Cell("#", RGB(255, 136, 0)),
+        Cell("#", RGB(255, 136, 0)),
+        Cell(" "),
+        Cell("*", RGB(1, 2, 3)),
+    ]
+    assert encode_stream_row(row) == b"_1\x1fff8800##\x1f_1\x1f010203*\n"
+    assert encode_stream_row([Cell(" ")] * 3) == b"\n"
+
+
+def test_stream_command_and_tsv(capsys, tmp_path: Path) -> None:
+    code, out, _ = run(capsys, tmp_path, "themes", "--tsv")
+    assert code == 0
+    assert out.splitlines()[0].split("\t")[0] == "matrix"
+    code, out, _ = run(capsys, tmp_path, "list", "galaxy", "--tsv")
+    assert code == 0
+    assert all(len(line.split("\t")) == 3 for line in out.splitlines())
+    code, out, _ = run(capsys, tmp_path, "looks", "--tsv")
+    assert code == 0
+    assert all(len(line.split("\t")) == 5 for line in out.splitlines())

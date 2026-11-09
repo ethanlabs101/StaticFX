@@ -132,6 +132,7 @@ staticfx --look "Synthwave"           # start from a look
 staticfx --auto 30 --duration 600     # screensaver: new effect every 30s, quit after 10 min
 staticfx list fire                    # search effects
 staticfx render galaxy --size 80x24   # print one frame (add --ansi for colour)
+staticfx stream plasma --size 120x40 # frames for other programs (NeoWave uses this)
 staticfx fetch                        # your fastfetch/neofetch info over a live effect
 staticfx fetch --once                 # one still frame, for your .bashrc
 staticfx new "Night Drive"            # create a random effect in My Effects

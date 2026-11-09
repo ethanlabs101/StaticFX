@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import contextlib
+import os
 import platform
 import random
 import sys
@@ -30,6 +31,10 @@ EXIT_OK, EXIT_ERROR, EXIT_USAGE = 0, 1, 2
 def fail(message: str, code: int = EXIT_USAGE) -> int:
     print(f"staticfx: {message}", file=sys.stderr)
     return code
+
+
+def tsv_field(text: str) -> str:
+    return text.replace("\t", " ").replace("\n", " ")
 
 
 def data_dir(args: argparse.Namespace) -> Path:
@@ -139,6 +144,23 @@ def render(args: argparse.Namespace) -> int:
     return EXIT_OK
 
 
+def stream(args: argparse.Namespace) -> int:
+    app = load_app(args)
+    error = apply_look_options(app, args)
+    if error:
+        return fail(error)
+    width, height = args.size
+    app.resize(width, height)
+    try:
+        session.stream(app, sys.stdout.buffer, args.fps, args.count)
+    except (BrokenPipeError, KeyboardInterrupt):
+        # The reader went away, which is how a stream normally ends. Point
+        # stdout at /dev/null so Python's exit-time flush doesn't complain.
+        with contextlib.suppress(OSError):
+            os.dup2(os.open(os.devnull, os.O_WRONLY), sys.stdout.fileno())
+    return EXIT_OK
+
+
 def fetch(args: argparse.Namespace) -> int:
     try:
         info = system_info(args.tool)
@@ -173,6 +195,9 @@ def list_effects(args: argparse.Namespace) -> int:
     words = [w.lower() for w in args.query]
     specs = [s for s in specs if all(w in s.search_text() for w in words)]
     for spec in specs:
+        if args.tsv:
+            print(f"{spec.key}\t{tsv_field(spec.label)}\t{tsv_field(spec.category)}")
+            continue
         star = "*" if app.is_favorite(spec.key) else " "
         print(f"{star} {spec.key:<20} {spec.label:<30} {spec.category}")
     if not specs:
@@ -182,6 +207,9 @@ def list_effects(args: argparse.Namespace) -> int:
 
 def list_themes(args: argparse.Namespace) -> int:
     for key, label in themes.LABELS.items():
+        if getattr(args, "tsv", False):
+            print(f"{key}\t{tsv_field(label)}")
+            continue
         note = "  (flashing: allow it in Settings first)" if key == "strobe" else ""
         print(f"{key:<10} {label}{note}")
     return EXIT_OK
@@ -189,6 +217,12 @@ def list_themes(args: argparse.Namespace) -> int:
 
 def list_looks(args: argparse.Namespace) -> int:
     app = load_app(args)
+    if getattr(args, "tsv", False):
+        for origin, looks in (("yours", app.looks.looks), ("builtin", BUILTIN_LOOKS)):
+            for look in looks:
+                fields = (look.name, look.effect, look.theme, look.note, origin)
+                print("\t".join(tsv_field(str(field)) for field in fields))
+        return EXIT_OK
     for heading, looks in (("Yours", app.looks.looks), ("Built in", BUILTIN_LOOKS)):
         print(f"{heading}:")
         if not looks:
@@ -289,6 +323,7 @@ def doctor(args: argparse.Namespace) -> int:
 HANDLERS = {
     "play": play,
     "render": render,
+    "stream": stream,
     "fetch": fetch,
     "list": list_effects,
     "themes": list_themes,

@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.1.0 (2026-11-09)
+
+- `staticfx stream` writes frames continuously in a small text format, so
+  other programs can draw StaticFX animations (NeoWave uses it for its
+  animated backgrounds). The format is in [docs/STREAM.md](docs/STREAM.md).
+- `list`, `themes` and `looks` take `--tsv` for tab-separated output.
+
 ## 2.0.1 (2026-11-08)
 
 - System info in the app: `y` lays your fastfetch or neofetch output over

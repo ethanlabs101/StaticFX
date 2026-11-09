@@ -161,9 +161,10 @@ Command | What it does
 `staticfx export EFFECT FILE` | Save one of your effects, or a generated one, as a `.sfx` file.
 `staticfx render [EFFECT] [--size WxH] [--frames N] [--ansi] [--256] [--out FILE]` | Print one frame and exit. Handy for screenshots, CI, or your shell prompt.
 `staticfx fetch [--tool fastfetch\|neofetch] [--once]` | Open the app with your system info showing (`y` hides it). `--once` prints a single still frame instead, for your shell's startup file.
+`staticfx stream [EFFECT] [--size WxH] [--fps N] [--count N]` | Write frames continuously for another program to draw ([format](STREAM.md)). NeoWave uses it for animated backgrounds.
 `staticfx doctor` | Check your terminal and saved files, and render every effect once.
 
-`play`, `render` and `fetch` share these options:
+`play`, `render`, `stream` and `fetch` share these options:
 
 Option | Meaning
 --- | ---

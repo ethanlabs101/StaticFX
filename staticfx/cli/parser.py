@@ -15,6 +15,7 @@ COMMANDS = (
     "import",
     "export",
     "render",
+    "stream",
     "fetch",
     "doctor",
 )
@@ -29,6 +30,7 @@ examples:
   staticfx --auto 20               screensaver: a new effect every 20 seconds
   staticfx list fire               search effects
   staticfx render galaxy --size 80x24 --ansi > galaxy.txt
+  staticfx stream plasma --size 120x40 | my-program
 """
 
 
@@ -111,9 +113,12 @@ def build() -> argparse.ArgumentParser:
     lister.add_argument("query", nargs="*", help="words to search for")
     lister.add_argument("--kind", choices=("builtin", "generated", "mine", "gallery"))
     lister.add_argument("--favorites", action="store_true", help="only your favourites")
+    lister.add_argument("--tsv", action="store_true", help="tab-separated, for other programs")
 
-    sub.add_parser("themes", parents=[common], help="list themes")
-    sub.add_parser("looks", parents=[common], help="list saved and built-in looks")
+    themer = sub.add_parser("themes", parents=[common], help="list themes")
+    themer.add_argument("--tsv", action="store_true", help="tab-separated, for other programs")
+    looker = sub.add_parser("looks", parents=[common], help="list saved and built-in looks")
+    looker.add_argument("--tsv", action="store_true", help="tab-separated, for other programs")
 
     new = sub.add_parser("new", parents=[common], help="create a random effect in My Effects")
     new.add_argument("name")
@@ -135,6 +140,24 @@ def build() -> argparse.ArgumentParser:
     render.add_argument("--ansi", action="store_true", help="keep colours (escape codes)")
     render.add_argument("--256", dest="color256", action="store_true", help="256-colour codes")
     render.add_argument("--out", metavar="FILE", help="write to FILE instead of the screen")
+
+    streamer = sub.add_parser(
+        "stream",
+        parents=[common, look],
+        help="write frames continuously for other programs to draw",
+        description=(
+            "Write animation frames to standard output in a simple text format "
+            "(see docs/STREAM.md) until the reader goes away."
+        ),
+    )
+    streamer.add_argument("effect_name", nargs="?", metavar="EFFECT")
+    streamer.add_argument("--size", type=size, default=(80, 24), metavar="WxH")
+    streamer.add_argument(
+        "--fps", type=int, choices=range(1, 61), default=20, metavar="1-60", help="frame rate"
+    )
+    streamer.add_argument(
+        "--count", type=int, metavar="N", help="stop after N frames (uses a fixed time step)"
+    )
 
     fetch = sub.add_parser(
         "fetch", parents=[common, look, interactive], help="system info over an effect"
