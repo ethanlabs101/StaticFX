@@ -161,6 +161,7 @@ https://github.com/user-attachments/assets/7869f462-5cf7-48dd-83de-5dee0ff40fd7
 
 ![NeoWave Lua Preview Image](https://github.com/ethanlabs101/StaticFX/blob/main/assets/neowave-lua-flex.png)
 ![NeoWave Lua Matrix Image](https://github.com/ethanlabs101/StaticFX/blob/main/assets/neowave-lua-matrix.png)
+![NeoWave GIF](https://github.com/ethanlabs101/neowave-lua/blob/main/git-media/neowave-20261109-212959.gif)
 
 > NeoWave Lua can create beautiful unique custom fetch configs.
 
